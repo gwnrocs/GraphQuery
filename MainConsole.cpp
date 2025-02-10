@@ -78,6 +78,13 @@ void MainConsole::handleQueries(Graph& graph) {
                 std::cout << "> " << Colors::Red << "Edge(" << source << ", " << target << ") does not exist in the graph.\n\n" << Colors::Reset;
             }
         }
+        else if (command == "path") {
+            std::string source, target;
+            iss >> source >> target;
+            std::string result = graph.hasPath(source, target);
+            std::cout << "> " << result << "\n\n";
+        }
+
         else if (command == "exit") {
             std::cout << "> " << Colors::Yellow << "Exiting . . . \n\n\n" << Colors::Reset;
             system("wmic process where \"name='python.exe' and commandline like '%%GraphVisualizer.py%%'\" call terminate");
@@ -92,7 +99,7 @@ void MainConsole::handleQueries(Graph& graph) {
 
 
 void MainConsole::drawConsole() {
-    Graph graph = Graph();
+    Graph* graph = new Graph();
     std::string filename;
     bool graphParsed = false;
 
@@ -102,7 +109,7 @@ void MainConsole::drawConsole() {
         std::cout << "> Graph File: ";
         std::getline(std::cin, filename);
 
-        if (parseGraphFromFile(graph, filename)) {
+        if (parseGraphFromFile(*graph, filename)) {
             std::cout << "> " << Colors::Green << "Graph File: " << filename << " has been loaded.\n\n" << Colors::Reset;
 
             // Run Graph Visualizer Python script in background
@@ -119,7 +126,7 @@ void MainConsole::drawConsole() {
             }
 
             graphParsed = true;
-            handleQueries(graph);
+            handleQueries(*graph);
         }
     }
 }

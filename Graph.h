@@ -5,6 +5,10 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <string>
+#include <thread>
+#include <mutex>
+#include <iostream>
+#include <queue>
 
 class Graph {
 private:
@@ -17,6 +21,7 @@ public:
     void addEdge(const std::string& source, const std::string& target);
     bool hasNode(const std::string& node) const;
     bool hasEdge(const std::string& source, const std::string& target) const;
+    std::string hasPath(const std::string& source, const std::string& target) const;
     std::vector<std::string> getNodes() const;
     std::vector<std::pair<std::string, std::string>> getEdges() const;
 };
